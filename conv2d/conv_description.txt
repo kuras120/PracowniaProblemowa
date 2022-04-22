@@ -1,0 +1,32 @@
+Flow:
+
+1.
+    -(linijka 220) - lista argumentow do cnn-a
+    -(linijka 257) - wypakowanie setow do zmiennej args (train, predict)
+    -(linijka 265) - ladowanie datasetow
+    -(linijka 272) - mieszanie datasetow traningowego i walidujacego
+    -(linijka 276) - pobieranie informacji z plikow o rozszerzeniu hdf5 (hyperparameters)
+    -(linijka 123) - rozpoczecie trenowania
+    -(linijka 125) - przypisanie pakietow i cech do zmiennych (packets i features)
+    -(linijka 136) - deklaracja zakresu epok (np: 0 do 99)
+    -(linijka 138) - petla po Learning rate i Kernels (Number of convolutional filters)
+    -(linijka 148) - tworzenie modelu sieci konwolucyjnej
+    -(linijka 69) - tworzenie modelu
+    -(linijka 71) - Dropout zapobiega przeuczeniu
+    -(linijka 72) - Activation uzywana na wyjsciu neuronu w celu przekazania do kolejnego
+    -(linijka 94) - kompilacja modelu
+    -(linijka 99) - uczenie modelu
+    -(linijka 101) - fit - dopasowanie do wzorca (uczenie)
+    -(linijka 104) - metoda treningowa zwraca blad i poziom dokladnosci
+    -(linijka 170) - warunek zatrzymanie i aktualizacja najlepszego modelu
+    -(linijka 287) - testowanie modelu
+
+2.
+Learning rate: LR = [0.1,0.01,0.001]
+Batch size: BATCH_SIZE = [1024,2048]
+Number of convolutional filters: KERNELS = [1,2,4,8,16,32,64]
+Height of the pooling kernel: pool_height in ['min','max'], where min=3 and max is the total height of the output of one convolutional filter
+Other two important hyperparameters must be specified during the first step of the data preprocessing (see above):
+
+Maximum number of packets/sample (n): indicates the maximum number of packets of a flow recorded in chronological order in a sample.
+Time window (t): Time window (in seconds) used to simulate the capturing process of online systems by splitting the flows into subflows of fixed duration.
