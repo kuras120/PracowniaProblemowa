@@ -2,7 +2,7 @@ lxml
 h5py
 numpy
 pyshark
-sklearn
+scikit-learn
 tensorflow
 jupyter
 pandas
