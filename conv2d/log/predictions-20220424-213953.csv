@@ -1,0 +1,2 @@
+Model         TIME(sec) PACKETS SAMPLES DDOS% ACC    ERR    F1     PPV    TPR    FPR    TNR    FNR    Data Source
+IDS201X-LUCID     0.058 0007859 0005240 0.944 0.5630 15.0946 0.6988 0.5370 1.0000 0.8862 0.1138 0.0000 sample-dataset\10t-10n-IDS201X-dataset-test.hdf5
