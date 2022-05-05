@@ -495,7 +495,7 @@ def main(argv):
         max_flow_len = None
         dataset_id = None
         for file in filelist:
-            filename = file.split('\\')[-1].strip()
+            filename = file.split('/')[-1].strip()
             current_time_window = int(filename.split('-')[0].strip().replace('t',''))
             current_max_flow_len = int(filename.split('-')[1].strip().replace('n',''))
             current_dataset_id = str(filename.split('-')[2].strip())

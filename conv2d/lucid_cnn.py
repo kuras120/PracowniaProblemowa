@@ -263,7 +263,7 @@ def main(argv):
 
             # get the time_window and the flow_len from the filename
             train_file = glob.glob(dataset_folder + "/*" + '-train.hdf5')[0]
-            filename = train_file.split('\\')[-1].strip()
+            filename = train_file.split('/')[-1].strip()
             time_window = int(filename.split('-')[0].strip().replace('t', ''))
             max_flow_len = int(filename.split('-')[1].strip().replace('n', ''))
             dataset_name = filename.split('-')[2].strip()
