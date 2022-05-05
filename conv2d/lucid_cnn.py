@@ -221,38 +221,27 @@ def main(argv):
         description='DDoS attacks detection with convolutional neural networks',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('-t', '--train', nargs='+', type=str,
-                        help='Start the training process')
+    parser.add_argument('-t', '--train', nargs='+', type=str)
 
-    parser.add_argument('-e', '--epochs', default=0, type=int,
-                        help='Training iterations')
+    parser.add_argument('-e', '--epochs', default=0, type=int)
 
-    parser.add_argument('-a', '--attack_net', default=None, type=str,
-                        help='Subnet of the attacker (used to compute the detection accuracy)')
+    parser.add_argument('-a', '--attack_net', default=None, type=str)
 
-    parser.add_argument('-v', '--victim_net', default=None, type=str,
-                        help='Subnet of the victim (used to compute the detection accuracy)')
+    parser.add_argument('-v', '--victim_net', default=None, type=str)
 
-    parser.add_argument('-p', '--predict', nargs='?', type=str,
-                        help='Perform a prediction on pre-preocessed data')
+    parser.add_argument('-p', '--predict', nargs='?', type=str)
 
-    parser.add_argument('-pl', '--predict_live', nargs='?', type=str,
-                        help='Perform a prediction on live traffic')
+    parser.add_argument('-pl', '--predict_live', nargs='?', type=str)
 
-    parser.add_argument('-i', '--iterations', default=1, type=int,
-                        help='Predict iterations')
+    parser.add_argument('-i', '--iterations', default=1, type=int)
 
-    parser.add_argument('-m', '--model', type=str,
-                        help='File containing the model')
+    parser.add_argument('-m', '--model', type=str)
 
-    parser.add_argument('-r', '--regularization', nargs='?', type=str, default=None,
-                        help='Apply a regularization technique (l1,l2)')
+    parser.add_argument('-r', '--regularization', nargs='?', type=str, default=None)
 
-    parser.add_argument('-d', '--dropout', nargs='?', type=float, default=None,
-                        help='Apply dropout to the convolutional layer')
+    parser.add_argument('-d', '--dropout', nargs='?', type=float, default=None)
 
-    parser.add_argument('-y', '--dataset_type', default=None, type=str,
-                        help='Type of the dataset. Available options are: IDS2017, IDS2018, SYN2020')
+    parser.add_argument('-y', '--dataset_type', default=None, type=str)
 
     args = parser.parse_args()
 
@@ -274,7 +263,7 @@ def main(argv):
 
             # get the time_window and the flow_len from the filename
             train_file = glob.glob(dataset_folder + "/*" + '-train.hdf5')[0]
-            filename = train_file.split('/')[-1].strip()
+            filename = train_file.split('\\')[-1].strip()
             time_window = int(filename.split('-')[0].strip().replace('t', ''))
             max_flow_len = int(filename.split('-')[1].strip().replace('n', ''))
             dataset_name = filename.split('-')[2].strip()
@@ -332,64 +321,6 @@ def main(argv):
                     avg_time = avg_time / iterations
 
                     report_results(np.squeeze(Y_true), Y_pred, packets, model_name_string, filename, stats_file, avg_time)
-
-    if args.predict_live is not None:
-        if os.path.isdir("./log") == False:
-            os.mkdir("./log")
-        stats_file = open('./log/predictions-' + time.strftime("%Y%m%d-%H%M%S") + '.csv', 'a')
-        stats_file.write(PREDICTION_HEADER)
-
-        if args.predict_live is None:
-            print("Please specify a valid network interface or pcap file!")
-            exit(-1)
-        elif args.predict_live.endswith('.pcap'):
-            pcap_file = args.predict_live
-            cap = pyshark.FileCapture(pcap_file)
-            data_source = pcap_file.split('/')[-1].strip()
-        else:
-            cap =  pyshark.LiveCapture(interface=args.predict_live)
-            data_source = args.predict_live
-
-        print ("Prediction on network traffic from: ", data_source)
-
-        # load the labels, if available
-        labels = parse_labels(args.dataset_type, args.attack_net, args.victim_net)
-
-        # do not forget command sudo ./jetson_clocks.sh on the TX2 board before testing
-        if args.model is not None and args.model.endswith('.h5'):
-            model_path = args.model
-        else:
-            print ("No valid LUCID model specified!")
-            exit(-1)
-
-        model_filename = model_path.split('/')[-1].strip()
-        filename_prefix = model_filename.split('n')[0] + 'n-'
-        time_window = int(filename_prefix.split('t-')[0])
-        max_flow_len = int(filename_prefix.split('t-')[1].split('n-')[0])
-        model_name_string = model_filename.split(filename_prefix)[1].strip().split('.')[0].strip()
-        model = load_model(args.model)
-
-        mins, maxs = static_min_max(time_window)
-
-        while (True):
-            samples = process_live_traffic(cap, args.dataset_type, labels, max_flow_len, traffic_type="all", time_window=time_window)
-            if len(samples) > 0:
-                X,Y_true,keys = dataset_to_list_of_fragments(samples)
-                X = np.array(normalize_and_padding(X, mins, maxs, max_flow_len))
-                if labels is not None:
-                    Y_true = np.array(Y_true)
-                else:
-                    Y_true = None
-
-                X = np.expand_dims(X, axis=3)
-                pt0 = time.time()
-                Y_pred = np.squeeze(model.predict(X, batch_size=2048) > 0.5,axis=1)
-                pt1 = time.time()
-                prediction_time = pt1 - pt0
-
-                [packets] = count_packets_in_dataset([X])
-                report_results(Y_true, Y_pred, packets, model_name_string,
-                               data_source, stats_file, prediction_time)
 
 def report_results(Y_true, Y_pred,packets, model_name, dataset_filename, stats_file,prediction_time):
     ddos_rate = '{:04.3f}'.format(sum(Y_pred)/Y_pred.shape[0])

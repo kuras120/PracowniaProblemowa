@@ -2,6 +2,7 @@ Flow:
 
 1. (linijka 418 w pliku parser)
     -metoda process  - parsujemy pcap (tutaj znajduja sie hiper parametry (flow i time window))
+    -metoda parse_labels - tutaj przypisujemy etykiety, mamy dwie możliwości, albo z pliku albo za pomocą zadeklarowanych IP-ków (atakujący lub ofiara)
     -(linijka 129) metoda parse_packet - parsujemy dany pakiet w celu standaryzacji (sklada sie z pieciu naglowkowych parametrow source ip, source ip, desitnation port, destination protocol)
     -(linijka 229) metoda store_packet - ustandaryzowanie pakiety w celu przechowania do uczenia (macierz (y - okno czasowe, x - kierunek ruchu ?)
     -(linijka 248) metoda apply_labels - dodawanie etykiet, gdzie kluczem jest ip. Uwzgledniamy znane wartosci (atakujacy, ofiara). Tupla zawiera ip (zrodlowy, docelowy). Wartosc 1 - atak, 0 - czysty pakiet
