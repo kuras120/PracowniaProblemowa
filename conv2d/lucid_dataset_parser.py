@@ -90,11 +90,16 @@ def get_ddos_flows(attackers,victims):
 # function that build the labels based on the dataset type
 def parse_labels(dataset_type=None, attackers=None,victims=None):
     output_dict = {}
-
+    print ('Attackers: ')
+    print (attackers)
     if attackers is not None and victims is not None:
         DDOS_FLOWS = get_ddos_flows(attackers, victims)
+        print('Inside 1: ')
+        print(DDOS_FLOWS)
     elif dataset_type is not None and dataset_type in DDOS_ATTACK_SPECS:
         DDOS_FLOWS = DDOS_ATTACK_SPECS[dataset_type]
+        print('Inside 2: ')
+        print(DDOS_FLOWS)
     else:
         return None
 
@@ -461,6 +466,9 @@ def main(argv):
         output_file = output_folder + '/' + filename
         output_file = output_file.replace("//", "/") # remove double slashes when needed
 
+        with open(output_file + '.data', 'wb') as filehandle:
+            # store the data as binary data stream
+            pickle.dump(preprocessed_flows, filehandle)
 
         (total_flows, ddos_flows, benign_flows),  (total_fragments, ddos_fragments, benign_fragments) = count_flows(preprocessed_flows)
 
@@ -506,7 +514,12 @@ def main(argv):
                 dataset_id = "IDS201X"
             else:
                 dataset_id = current_dataset_id
-                
+
+        preprocessed_flows = []
+        for file in filelist:
+            with open(file, 'rb') as filehandle:
+                # read the data as binary data stream
+                preprocessed_flows = preprocessed_flows + pickle.load(filehandle)
 
         # balance samples and redux the number of samples when requested
         preprocessed_flows, benign_fragments, ddos_fragments = balance_dataset(preprocessed_flows,args.samples)

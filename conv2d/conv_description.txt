@@ -1,25 +1,26 @@
 Flow:
 
 1.
-    -(linijka 220) - lista argumentow do cnn-a
-    -(linijka 257) - wypakowanie setow do zmiennej args (train, predict)
-    -(linijka 265) - ladowanie datasetow
-    -(linijka 272) - mieszanie datasetow traningowego i walidujacego
-    -(linijka 276) - pobieranie informacji z plikow o rozszerzeniu hdf5 (hyperparameters)
-    -(linijka 123) - rozpoczecie trenowania
-    -(linijka 125) - przypisanie pakietow i cech do zmiennych (packets i features)
-    -(linijka 136) - deklaracja zakresu epok (np: 0 do 99)
-    -(linijka 138) - petla po Learning rate i Kernels (Number of convolutional filters)
-    -(linijka 148) - tworzenie modelu sieci konwolucyjnej
-    -(linijka 69) - tworzenie modelu
-    -(linijka 71) - Dropout zapobiega przeuczeniu
-    -(linijka 72) - Activation uzywana na wyjsciu neuronu w celu przekazania do kolejnego
-    -(linijka 94) - kompilacja modelu
-    -(linijka 99) - uczenie modelu
-    -(linijka 101) - fit - dopasowanie do wzorca (uczenie)
-    -(linijka 104) - metoda treningowa zwraca blad i poziom dokladnosci
-    -(linijka 170) - warunek zatrzymanie i aktualizacja najlepszego modelu
-    -(linijka 287) - testowanie modelu
+    -(linijka 204) - lista argumentow do cnn-a
+    -(linijka 241) - wypakowanie setow do zmiennej args (train, predict)
+    -(linijka 250) - ladowanie datasetow
+    -(linijka 257) - rozpoczecia uczenia
+    -(linijka 245, 246) - mieszanie datasetow traningowego i walidujacego
+    -(linijka 249) - pobieranie informacji z plikow o rozszerzeniu hdf5 (hyperparameters)
+    -(linijka 107) - rozpoczecie trenowania
+    -(linijka 109) - przypisanie pakietow i cech do zmiennych (packets i features)
+    -(linijka 120) - deklaracja zakresu epok (np: 0 do 99)
+    -(linijka 122) - petla po Learning rate i Kernels (Number of convolutional filters)
+    -(linijka 132) - tworzenie modelu sieci konwolucyjnej
+    -(linijka 53) - tworzenie modelu
+    -(linijka 55) - Dropout zapobiega przeuczeniu
+    -(linijka 56) - Activation uzywana na wyjsciu neuronu w celu przekazania do kolejnego
+    -(linijka 62) - kompilacja modelu
+    -(linijka 83) - uczenie modelu
+    -(linijka 85) - fit - dopasowanie do wzorca (uczenie)
+    -(linijka 88) - metoda treningowa zwraca blad i poziom dokladnosci
+    -(linijka 154) - warunek zatrzymanie i aktualizacja najlepszego modelu
+    -(linijka 271) - testowanie modelu
 
 2.
 Learning rate: LR = [0.1,0.01,0.001]
