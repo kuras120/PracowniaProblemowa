@@ -1,0 +1,2 @@
+Model         TIME(sec) ACC    ERR    F1     PPV    TPR    FPR    TNR    FNR    Parameters
+IDS201X-LUCID     0.147 0.5640 0.6606 0.6988 0.5370 1.0000 0.8820 0.1180 0.0000 lr=0.100,b=2048,n=010,t=010,k=008,h=(03,11),m=min

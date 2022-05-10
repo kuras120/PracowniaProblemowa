@@ -1,0 +1,2 @@
+Model         TIME(sec) PACKETS SAMPLES DDOS% ACC    ERR    F1     PPV    TPR    FPR    TNR    FNR    Data Source
+SYN2020-LUCID     0.051 0001932 0000352 0.500 1.0000 0.0000 1.0000 1.0000 1.0000 0.0000 1.0000 0.0000 sample-dataset\10t-10n-SYN2020-dataset-test.hdf5
