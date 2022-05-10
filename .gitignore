@@ -131,3 +131,8 @@ dmypy.json
 # IDEA FILES
 .idea
 venv
+
+# learn & test csvs
+*_learn.csv
+*_test.csv
+knn/saved_model/*
