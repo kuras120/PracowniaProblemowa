@@ -19,6 +19,9 @@ def train_ddos():
         # 12 % of all rows
         test = pd.concat([df1.iloc[14000:16395, :], df1.iloc[40000:42721]]).sample(frac=1).reset_index(drop=True)
         test.to_csv('./knn_tuples_test.csv')
+        # common rows check
+        check = learn.merge(test, how='inner', indicator=False)
+        print(check)
     else:
         learn = pd.read_csv('./knn_tuples_learn.csv')
     ddos_target = 'label'
