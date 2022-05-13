@@ -15,7 +15,6 @@ def ddos_test():
         print(list_row)
         predicted = model.predict([list_row])
         actual = df1.iloc[[it]].label.values
-        print(actual)
         print('Predicted: ', predicted, 'Actual: ', actual)
         if predicted == actual:
             acc += 1

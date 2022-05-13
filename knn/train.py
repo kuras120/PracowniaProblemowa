@@ -13,17 +13,24 @@ def train_ddos():
         df1 = pd.read_csv('./knn_tuples.csv')
         df1['src_ip_addr'] = df1['src_ip_addr'].map(lambda x: x.replace('.', '')).astype(int)
         df1['dst_ip_addr'] = df1['dst_ip_addr'].map(lambda x: x.replace('.', '')).astype(int)
+        bad_samples = df1.iloc[:16395, :].sample(frac=1).reset_index(drop=True)
+        good_samples = df1.iloc[16395:42720, :].sample(frac=1).reset_index(drop=True)
+        print(len(bad_samples))
+        print(len(good_samples))
         # 88 % of all rows
-        learn = pd.concat([df1.iloc[:14000, :], df1.iloc[16395:40000, :]]).sample(frac=1).reset_index(drop=True)
+        learn = pd.concat([bad_samples.iloc[:14000, :], good_samples.iloc[:23000, :]]).sample(frac=1).reset_index(drop=True)
         learn.to_csv('./knn_tuples_learn.csv')
         # 12 % of all rows
-        test = pd.concat([df1.iloc[14000:16395, :], df1.iloc[40000:42721]]).sample(frac=1).reset_index(drop=True)
+        test = pd.concat([bad_samples.iloc[14000:16395, :], good_samples.iloc[23000:26325, :]]).sample(frac=1).reset_index(drop=True)
         test.to_csv('./knn_tuples_test.csv')
         # common rows check
         check = learn.merge(test, how='inner', indicator=False)
-        print(check)
+        print('Common rows between learn and test sets', check)
     else:
         learn = pd.read_csv('./knn_tuples_learn.csv')
+        test = pd.read_csv('./knn_tuples_test.csv')
+        check = learn.merge(test, how='inner', indicator=False)
+        print('Common rows between learn and test sets', check)
     ddos_target = 'label'
     X = learn.loc[:, ddos_features]
     y = learn.loc[:, ddos_target]
