@@ -1,7 +1,7 @@
 import pickle
 import pandas as pd
 
-from knn.train import ddos_features
+from train import ddos_features
 
 
 def ddos_test():
